@@ -1,18 +1,21 @@
-#ifndef _canController_HPP_
-#define _canController_HPP_
+#ifndef CANCONTROLLER_HPP
+#define CANCONTROLLER_HPP
 
-#include"bus.hpp"
-#include"node.hpp"
+#include "bus.hpp"
+#include "node.hpp"
 #include "cpu.hpp"
-#include<string>
+#include "transceiver.hpp"
+#include <string>
 
-class Controller : public CPU
+class Controller
 {
     private:
+    Transceiver* m_transceiver;
     public:
-    Controller();
+    Controller() = delete;
+    Controller(Transceiver* transceiver);
     ~Controller();
-    void startSendingData();
+    void startSendingData(const int& msgId);
 };
 
-#endif // _canController_HPP_
+#endif // CANCONTROLLER_HPP

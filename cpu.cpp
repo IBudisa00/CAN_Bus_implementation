@@ -1,6 +1,17 @@
 #include "cpu.hpp"
+#include "canController.hpp"
 
-void CPU::triggerSendData()
+CPU::CPU(Transceiver* transceiver)
 {
-    // call trasnceiver to start sending data 
+    m_controller = new Controller(transceiver);
+}
+
+CPU::~CPU()
+{
+    delete m_controller;
+}
+
+void CPU::triggerSendData(const int& msgId)
+{
+    m_controller->startSendingData(msgId);
 }

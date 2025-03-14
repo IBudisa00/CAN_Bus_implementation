@@ -1,6 +1,17 @@
 #include "canController.hpp"
 
-void Controller::startSendingData()
+Controller::Controller() = delete;
+
+Controller::Controller(Transceiver* transceiver)
 {
-    // contact transceiver to send data
+    m_transceiver = transceiver;
+}
+
+Controller::~Controller()
+{
+}
+
+void Controller::startSendingData(const int& msgId)
+{
+    m_transceiver->sendData(msgId);
 }

@@ -14,10 +14,15 @@ Node::Node(Can*& busLine, const std::string& name, const std::string& type)
         m_bus = new Can();
     else
         m_bus = busLine;
+    
+    m_transceiver = new Transceiver(m_device_type);
+    m_cpu = new CPU(m_transceiver);
 }
 
 Node::~Node()
 {
+    delete m_transceiver;
+    delete m_cpu;
     std::cout<<"Device "<<m_device_name<<" destroyed."<<std::endl;
 }
 
@@ -33,7 +38,7 @@ void Node::bitStuffing()
     // will be done
 }
 
-void Node::sendData()
+void Node::sendData(const int& msgId)
 {
-
+    m_cpu->triggerSendData(msgId);
 }

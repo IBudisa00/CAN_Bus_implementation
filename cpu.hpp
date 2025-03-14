@@ -1,18 +1,20 @@
-#ifndef _cpu_HPP_
-#define _cpu_HPP_
+#ifndef CPU_HPP
+#define CPU_HPP
 
-#include"bus.hpp"
-#include"node.hpp"
-#include<string>
+#include "bus.hpp"
+#include "node.hpp"
+#include "transceiver.hpp"
+#include <string>
 
-class CPU : public Node
+class CPU
 {
     private:
     std::vector<int> m_dataBuffer;
+    Controller* m_controller;
     public:
-    CPU();
+    CPU(Transceiver* transceiver);
     ~CPU();
-    void triggerSendData();
+    void triggerSendData(const int& msgId);
 };
 
-#endif // _cpu_HPP_
+#endif // CPU_HPP

@@ -1,16 +1,16 @@
-#ifndef _bus_HPP_
-#define _bus_HPP_
+#ifndef BUS_HPP
+#define BUS_HPP
 
-#include<vector>
+#include <vector>
 
 class Can
 {
     private:
-        std::vector<int> m_buffer;
+    std::vector<int> m_buffer;
     public:
-        Can();
-        ~Can();
-        void arbitration();
+    Can();
+    ~Can();
+    void arbitration();
 };
 
-#endif // _bus_HPP_
+#endif // BUS_HPP
