@@ -6,17 +6,23 @@ Node::Node(Can*& busLine, const std::string& name, const std::string& type)
 {
     m_device_name = name;
     if(checkDeviceType(type))
+    {
         m_device_type = type;
+        m_connectedToLine = true;
+    }
     else
-        std::cout<<"Unknown device type!"<<std::endl;
+    {
+        m_connectedToLine = false;
+        std::cout<<m_device_name<<": Unknown device type!"<<std::endl;
+    }
 
     if(m_bus == NULL)
         m_bus = new Can();
     else
         m_bus = busLine;
     
-    m_transceiver = new Transceiver(m_device_type);
     m_cpu = new CPU(m_transceiver);
+    m_transceiver = new Transceiver(busLine, m_cpu->getController(), m_device_type);
 }
 
 Node::~Node()
@@ -38,7 +44,7 @@ void Node::bitStuffing()
     // will be done
 }
 
-void Node::sendData(const int& msgId)
+void Node::sendData(const std::vector<int> msgId, const std::vector<int> data, const int identifierExtensionBit, const int reservedBit, const int rtrBit)
 {
-    m_cpu->triggerSendData(msgId);
+    m_cpu->triggerSendData(msgId, data, identifierExtensionBit, reservedBit, rtrBit);
 }

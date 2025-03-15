@@ -6,11 +6,14 @@
 class Can
 {
     private:
-    std::vector<int> m_buffer;
+    int m_value;
     public:
     Can();
     ~Can();
+    inline void setValue(const int value);
+    inline int getValue();
+    inline Controller* getController();
     void arbitration();
 };
 
-#endif // BUS_HPP
+#endif // BUS_HPP 
