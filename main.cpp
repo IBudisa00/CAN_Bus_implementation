@@ -11,6 +11,10 @@ int main()
     Node node2 (bus,"node2", CAN_20A);
     Node node3 (bus,"node3", CAN_20B);
 
+    // create while(1) simulates rtos
+    // create threads for each node
+    // each thread runs node's m_bus->m_controller->listenBus();
+    
     delete bus;
     return 0;
 }

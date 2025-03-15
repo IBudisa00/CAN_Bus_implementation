@@ -14,7 +14,8 @@ class CPU
     public:
     CPU(Transceiver* transceiver);
     ~CPU();
-    void triggerSendData(const int& msgId);
+    void triggerSendData(const std::vector<int> msgId, const std::vector<int> data, const int identifierExtensionBit, const int reservedBit, const int rtrBit);
+    inline Controller* getController();
 };
 
 #endif // CPU_HPP
