@@ -29,7 +29,8 @@ std::vector<int> Controller::formDataFrame(const std::vector<int> msgId, const s
         dataFrame.push_back(data[data.size()-i]); // dataBytes
     for(int i = 0; i < data.size(); i++)
         dataFrame.push_back(data[i]); // data bits
-    // 1 bits for CRC (gotta calculate it) 
+    // 1 bits for CRC (gotta calculate it)
+    calculateCRC(dataFrame, data);
     dataFrame.push_back(RECESSIVE); // CRC delimiter must be 1
     dataFrame.push_back(RECESSIVE); // ack slot - sender(1), receiver(0)
     dataFrame.push_back(RECESSIVE); // ack delimiter - must be 1
@@ -66,4 +67,47 @@ inline void Controller::setLineTaken(const bool& value)
         m_holdMessage = true;
     else
         m_holdMessage = false;
+}
+
+void calculateCRC(std::vector<int>& dataFrame, const std::vector<int> data)
+{
+    std::bitset<16> initialValue(0xFFFF);
+    int polinomSize = 17; // x^16 + x^12 + x^5 + 1
+    std::vector<int> divisor{1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1};
+    std::vector<int> inputSet;
+    std::vector<int> dividend;
+    std::vector<int> remainder;
+    int inputSetCounter = polinomSize; // first to add
+
+    for(int i = initialValue.size()-1; i >= 0; i--)
+        inputSet.push_back(initialValue[i]);
+
+    for(int i = 0; i < data.size(); i++)
+        inputSet.push_back(data[i]);
+    
+    for(int i = 0; i < polinomSize-1; i++)
+        inputSet.push_back(0);
+
+    for(int i = 0; i < polinomSize; i++)
+        dividend.push_back(inputSet[i]);
+    
+    while(inputSetCounter <= inputSet.size())
+    {
+        for(int i = 0; i < polinomSize; i++)
+        {
+            if(dividend[i] != divisor[i])
+                remainder.push_back(1);
+            else
+                remainder.push_back(0);
+        }
+        dividend = remainder;
+        if(inputSetCounter == inputSet.size())
+            break;
+        dividend.erase(dividend.begin());
+        dividend.push_back(inputSet[inputSetCounter]);
+        inputSetCounter++;
+    }
+
+    for(int i = 1; i < dividend.size(); i++)
+        dataFrame.push_back(dividend[i]);
 }

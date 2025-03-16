@@ -21,6 +21,7 @@ class Controller
     std::vector<int> Controller::formDataFrame(const std::vector<int> msgId, const std::vector<int> data, const int identifierExtensionBit, const int reservedBit, const int rtrBit);
     void startSendingData(const std::vector<int> msgId, const std::vector<int> data, const int identifierExtensionBit, const int reservedBit, const int rtrBit);
     inline void setLineTaken(const bool& value);
+    void calculateCRC(std::vector<int>& dataFrame, const std::vector<int> data);
 };
 
 #endif // CANCONTROLLER_HPP
