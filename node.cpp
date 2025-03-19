@@ -48,3 +48,8 @@ void Node::sendData(const std::vector<int> msgId, const std::vector<int> data, c
 {
     m_cpu->triggerSendData(msgId, data, identifierExtensionBit, reservedBit, rtrBit);
 }
+
+Transceiver* Node::getTransceiver()
+{
+    return m_transceiver;
+}
