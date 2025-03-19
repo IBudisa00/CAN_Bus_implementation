@@ -25,6 +25,7 @@ class Node
     int checkDeviceType(const std::string& type);
     void bitStuffing();
     void sendData(const std::vector<int> msgId, const std::vector<int> data, const int identifierExtensionBit, const int reservedBit, const int rtrBit);
+    Transceiver* getTransceiver();
 };
 
 #endif // NODE_HPP

@@ -2,11 +2,12 @@
 #define BUS_HPP
 
 #include <vector>
+#include <atomic>
 
 class Can
 {
     private:
-    int m_value;
+    std::atomic_int m_value;
     public:
     Can();
     ~Can();

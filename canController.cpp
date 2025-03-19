@@ -78,6 +78,7 @@ void calculateCRC(std::vector<int>& dataFrame, const std::vector<int> data)
     std::vector<int> dividend;
     std::vector<int> remainder;
     int inputSetCounter = polinomSize; // first to add
+    bool copyDiv = false;
 
     for(int i = initialValue.size()-1; i >= 0; i--)
         inputSet.push_back(initialValue[i]);
@@ -95,12 +96,23 @@ void calculateCRC(std::vector<int>& dataFrame, const std::vector<int> data)
     {
         for(int i = 0; i < polinomSize; i++)
         {
+            if(i == 0)
+            {
+                if(dividend[i] == 0)
+                {
+                    copyDiv = true;
+                    break;
+                }
+            }
             if(dividend[i] != divisor[i])
                 remainder.push_back(1);
             else
                 remainder.push_back(0);
         }
-        dividend = remainder;
+        if(copyDiv)
+            copyDiv = false;
+        else
+            dividend = std::move(remainder);
         if(inputSetCounter == inputSet.size())
             break;
         dividend.erase(dividend.begin());
